@@ -33,6 +33,7 @@
         <div class="day-pill unavailable" data-day="Mar 6"><div class="dow">Mar</div><div class="num">6</div></div>
         <div class="day-pill" data-day="Mer 7"><div class="dow">Mer</div><div class="num">7</div></div>
       </div>
+      <div class="day-status" id="day-status-ecran3">Terrain disponible le jeudi 1.</div>
     </div>
 
     <div class="detail-section">
@@ -81,11 +82,30 @@
 
 <script>
   // Day selection
+  const DAY_NAMES_3 = {
+    "Jeu 1": "jeudi 1",
+    "Ven 2": "vendredi 2",
+    "Sam 3": "samedi 3",
+    "Dim 4": "dimanche 4",
+    "Lun 5": "lundi 5",
+    "Mar 6": "mardi 6",
+    "Mer 7": "mercredi 7"
+  };
   document.querySelectorAll('.day-pill').forEach(pill => {
     pill.addEventListener('click', () => {
-      if (pill.classList.contains('unavailable')) return;
+      const label = DAY_NAMES_3[pill.dataset.day] || pill.dataset.day;
+      const statusEl = document.getElementById('day-status-ecran3');
+
+      if (pill.classList.contains('unavailable')) {
+        statusEl.textContent = "Terrain indisponible le " + label + ". Choisissez un autre jour.";
+        statusEl.classList.add('unavailable-text');
+        return;
+      }
+
       document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('selected'));
       pill.classList.add('selected');
+      statusEl.classList.remove('unavailable-text');
+      statusEl.textContent = "Terrain disponible le " + label + ".";
     });
   });
 
