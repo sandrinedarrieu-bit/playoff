@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réservation — TerrainLink</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="demo-badge">Démo / Données fictives</div>
+<div class="app">
+
+  <div class="topbar">
+    <a href="ecran2-detail.html" class="back">←</a>
+    <div>
+      <div class="brand">Stade des Lilas</div>
+      <div class="title">Réserver un créneau</div>
+    </div>
+  </div>
+
+  <div class="detail-content">
+
+    <div class="detail-section">
+      <h3>Choisissez un jour</h3>
+      <div class="day-row" id="day-row">
+        <div class="day-pill selected" data-day="Jeu 1"><div class="dow">Jeu</div><div class="num">1</div></div>
+        <div class="day-pill" data-day="Ven 2"><div class="dow">Ven</div><div class="num">2</div></div>
+        <div class="day-pill" data-day="Sam 3"><div class="dow">Sam</div><div class="num">3</div></div>
+        <div class="day-pill" data-day="Dim 4"><div class="dow">Dim</div><div class="num">4</div></div>
+        <div class="day-pill" data-day="Lun 5"><div class="dow">Lun</div><div class="num">5</div></div>
+        <div class="day-pill unavailable" data-day="Mar 6"><div class="dow">Mar</div><div class="num">6</div></div>
+        <div class="day-pill" data-day="Mer 7"><div class="dow">Mer</div><div class="num">7</div></div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Créneau horaire</h3>
+      <div class="slot-grid" id="slot-grid">
+        <div class="slot" data-slot="17:00">17:00</div>
+        <div class="slot" data-slot="18:00">18:00</div>
+        <div class="slot full" data-slot="19:00">19:00</div>
+        <div class="slot selected" data-slot="20:00">20:00</div>
+        <div class="slot" data-slot="21:00">21:00</div>
+        <div class="slot full" data-slot="22:00">22:00</div>
+      </div>
+      <div class="slot-legend">
+        <span><span class="legend-dot avail"></span>Disponible</span>
+        <span><span class="legend-dot selected"></span>Sélectionné</span>
+        <span><span class="legend-dot full"></span>Complet</span>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Nombre de joueurs</h3>
+      <div class="counter-row">
+        <div>
+          <div class="label">Joueurs</div>
+          <div class="hint">Minimum 4 pour ce sport</div>
+        </div>
+        <div class="counter-controls">
+          <div class="counter-btn" id="dec">−</div>
+          <div class="counter-value" id="count">6</div>
+          <div class="counter-btn" id="inc">+</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="price-bar">
+    <div class="price-info">
+      <div class="label">Total estimé</div>
+      <div class="amount" id="total-price">45 €</div>
+    </div>
+    <a href="ecran4-recapitulatif.html" class="btn-primary">Voir le récapitulatif</a>
+  </div>
+
+</div>
+
+<script>
+  // Day selection
+  document.querySelectorAll('.day-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      if (pill.classList.contains('unavailable')) return;
+      document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('selected'));
+      pill.classList.add('selected');
+    });
+  });
+
+  // Slot selection
+  document.querySelectorAll('.slot').forEach(slot => {
+    slot.addEventListener('click', () => {
+      if (slot.classList.contains('full')) return;
+      document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+      slot.classList.add('selected');
+    });
+  });
+
+  // Player counter
+  const PRICE_PER_HOUR = 45;
+  let players = 6;
+  const countEl = document.getElementById('count');
+  const totalEl = document.getElementById('total-price');
+
+  function updateTotal() {
+    // Prix de base = location horaire, indépendant du nombre de joueurs,
+    // mais affiché ici pour préparer la répartition à l'écran suivant.
+    totalEl.textContent = PRICE_PER_HOUR + ' €';
+  }
+
+  document.getElementById('inc').addEventListener('click', () => {
+    if (players < 14) players++;
+    countEl.textContent = players;
+    updateTotal();
+  });
+  document.getElementById('dec').addEventListener('click', () => {
+    if (players > 4) players--;
+    countEl.textContent = players;
+    updateTotal();
+  });
+</script>
+
+</body>
+</html>
