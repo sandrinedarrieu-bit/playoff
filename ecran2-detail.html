@@ -52,14 +52,19 @@
 
     <div class="detail-section">
       <h3>Créneaux 7 prochains jours</h3>
-      <div class="day-row">
-        <div class="day-pill selected"><div class="dow">Jeu</div><div class="num">1</div></div>
-        <div class="day-pill"><div class="dow">Ven</div><div class="num">2</div></div>
-        <div class="day-pill"><div class="dow">Sam</div><div class="num">3</div></div>
-        <div class="day-pill"><div class="dow">Dim</div><div class="num">4</div></div>
-        <div class="day-pill"><div class="dow">Lun</div><div class="num">5</div></div>
-        <div class="day-pill"><div class="dow">Mar</div><div class="num">6</div></div>
-        <div class="day-pill"><div class="dow">Mer</div><div class="num">7</div></div>
+      <div class="day-row" id="day-row-ecran2">
+        <div class="day-pill selected" data-status="available"><div class="dow">Jeu</div><div class="num">1</div></div>
+        <div class="day-pill" data-status="available"><div class="dow">Ven</div><div class="num">2</div></div>
+        <div class="day-pill" data-status="available"><div class="dow">Sam</div><div class="num">3</div></div>
+        <div class="day-pill" data-status="available"><div class="dow">Dim</div><div class="num">4</div></div>
+        <div class="day-pill" data-status="available"><div class="dow">Lun</div><div class="num">5</div></div>
+        <div class="day-pill unavailable" data-status="unavailable"><div class="dow">Mar</div><div class="num">6</div></div>
+        <div class="day-pill" data-status="available"><div class="dow">Mer</div><div class="num">7</div></div>
+      </div>
+      <div class="day-status" id="day-status-ecran2">Terrain disponible le jeudi 1 — choisissez un créneau à l'étape suivante.</div>
+      <div class="slot-legend">
+        <span><span class="legend-dot avail"></span>Disponible</span>
+        <span><span class="legend-dot full"></span>Indisponible</span>
       </div>
     </div>
 
@@ -70,5 +75,37 @@
   </div>
 
 </div>
+
+<script>
+  const DAY_NAMES = {
+    "Jeu 1": "jeudi 1",
+    "Ven 2": "vendredi 2",
+    "Sam 3": "samedi 3",
+    "Dim 4": "dimanche 4",
+    "Lun 5": "lundi 5",
+    "Mar 6": "mardi 6",
+    "Mer 7": "mercredi 7"
+  };
+
+  document.querySelectorAll('#day-row-ecran2 .day-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const dow = pill.querySelector('.dow').textContent;
+      const num = pill.querySelector('.num').textContent;
+      const label = DAY_NAMES[dow + ' ' + num] || (dow + ' ' + num);
+      const statusEl = document.getElementById('day-status-ecran2');
+
+      if (pill.dataset.status === 'unavailable') {
+        statusEl.textContent = "Terrain indisponible le " + label + ". Choisissez un autre jour.";
+        statusEl.classList.add('unavailable-text');
+        return;
+      }
+
+      document.querySelectorAll('#day-row-ecran2 .day-pill').forEach(p => p.classList.remove('selected'));
+      pill.classList.add('selected');
+      statusEl.classList.remove('unavailable-text');
+      statusEl.textContent = "Terrain disponible le " + label + " — choisissez un créneau à l'étape suivante.";
+    });
+  });
+</script>
 </body>
 </html>
