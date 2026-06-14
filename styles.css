@@ -337,6 +337,22 @@ h1, h2, h3, .h-display {
 }
 .day-pill.unavailable {
   opacity: 0.4;
+  cursor: pointer;
+}
+.day-status {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--navy);
+  background: var(--white);
+  border: 1px solid var(--grey-light);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.day-status.unavailable-text {
+  color: var(--red);
+  background: #FBEAEA;
+  border-color: #F3D2D2;
+  font-weight: 600;
 }
 
 .slot-grid {
